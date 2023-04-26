@@ -8,7 +8,7 @@ stage('Checkout'){
 
 steps{
 
-git branch: "main", url: 'https://github.com/mdtauqeeralam21/patient-info-service.git'
+git branch: "main", url: 'https://github.com/mdtauqeeralam21/appointment-service.git'
 
 }
 
@@ -38,7 +38,7 @@ stage('DockerBuild') {
 
 steps {
 
-sh 'docker build -t tauqeeralam21/patient-info-service:latest .'
+sh 'docker build -t tauqeeralam21/g2-appointment-service:latest .'
 
 }
 
@@ -58,7 +58,7 @@ stage('Push') {
 
 steps {
 
-sh 'docker push tauqeeralam21/patient-info-service'
+sh 'docker push tauqeeralam21/g2-appointment-service'
 
 }
 
