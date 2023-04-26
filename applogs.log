@@ -1,0 +1,5 @@
+2023-04-19T00:29:36.229+05:30  INFO 6000 --- [main] com.pms.test.AppointmentControllerTest   : The following 1 profile is active: "local"
+2023-04-19T00:29:55.484+05:30  INFO 6000 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2023-04-19T00:29:55.493+05:30  INFO 6000 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2023-04-19T00:29:55.515+05:30  INFO 6000 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 19 ms
+2023-04-19T00:29:56.225+05:30  INFO 6000 --- [main] com.pms.test.AppointmentControllerTest   : Started AppointmentControllerTest in 30.97 seconds (process running for 42.951)

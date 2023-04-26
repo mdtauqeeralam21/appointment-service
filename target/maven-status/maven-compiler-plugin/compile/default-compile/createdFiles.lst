@@ -1,0 +1,11 @@
+com\pms\exception\AppointmentServiceException.class
+com\pms\Service\AppointmentService.class
+com\pms\Service\Impl\AppointmentServiceImpl.class
+com\pms\entity\Appointment.class
+com\pms\G2AppointmentServiceApplication.class
+com\pms\exception\ErrorResponse.class
+com\pms\exception\GlobalExceptionHandler.class
+com\pms\entity\CustomIdGenerator.class
+com\pms\Repository\AppointmentRepository.class
+com\pms\Controller\AppointmentController.class
+com\pms\Controller\CentralizedLogging.class

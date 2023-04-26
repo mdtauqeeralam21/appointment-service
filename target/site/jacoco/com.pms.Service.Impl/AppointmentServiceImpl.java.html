@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AppointmentServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">g2-Appointment-service</a> &gt; <a href="index.source.html" class="el_package">com.pms.Service.Impl</a> &gt; <span class="el_source">AppointmentServiceImpl.java</span></div><h1>AppointmentServiceImpl.java</h1><pre class="source lang-java linenums">package com.pms.Service.Impl;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.pms.Repository.AppointmentRepository;
+import com.pms.Service.AppointmentService;
+import com.pms.entity.Appointment;
+
+import com.pms.exception.AppointmentServiceException;
+
+
+@Service
+@Transactional
+<span class="fc" id="L19">public class AppointmentServiceImpl implements AppointmentService {</span>
+
+	@Autowired
+	private AppointmentRepository appointmentrepository;
+
+	
+
+	@Override
+	public Appointment saveDetails(Appointment appointment) throws AppointmentServiceException {
+<span class="fc" id="L28">		appointment.setAcceptance(&quot;Pending&quot;);</span>
+<span class="fc" id="L29">		Appointment result = appointmentrepository.save(appointment);</span>
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">		if (result == null) {</span>
+<span class="fc" id="L32">			throw new AppointmentServiceException(&quot;Appointment didn't booked&quot;);</span>
+		}
+<span class="fc" id="L34">		return result;</span>
+	}
+
+	// for delete
+	@Override
+	public boolean deleteDetails(String appointmentId) throws AppointmentServiceException {
+<span class="fc" id="L40">		boolean bool = false;</span>
+<span class="fc" id="L41">		bool = appointmentrepository.existsById(appointmentId);</span>
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">		if (bool == false) {</span>
+<span class="fc" id="L44">			throw new AppointmentServiceException(&quot;Given appointment Id is not valid &quot; + appointmentId);</span>
+		}
+
+<span class="fc" id="L47">		appointmentrepository.deleteById(appointmentId);</span>
+		;
+<span class="fc" id="L49">		System.out.println(&quot;item deleted&quot;);</span>
+<span class="fc" id="L50">		return bool;</span>
+
+	}
+
+	// for updating
+	@Override
+	public Appointment updateDetails(Appointment appointment, String appointmentId) throws AppointmentServiceException {
+<span class="fc" id="L57">		Appointment app = null;</span>
+<span class="fc" id="L58">		app = appointmentrepository.findByAppointmentId(appointmentId);</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">		if (app == null) {</span>
+<span class="fc" id="L61">			throw new AppointmentServiceException(&quot;Given appointment Id is not valid &quot; + appointmentId);</span>
+		}
+
+<span class="fc" id="L64">		app.setAcceptance(appointment.getAcceptance());</span>
+//			app.setAppointmentDate(appointment.getAppointmentDate());
+//			app.setPhysicianEmail(appointment.getPhysicianEmail());
+//			app.setReason(appointment.getReason());
+//			app.setSubmissionDate(appointment.getSubmissionDate());
+<span class="fc" id="L69">		return appointmentrepository.saveAndFlush(app);</span>
+
+	}
+
+	// for fetching with patiendId , only for patient
+	@Override
+	public List&lt;Appointment&gt; getAppointment(String patientId) throws AppointmentServiceException {
+<span class="fc" id="L76">		List&lt;Appointment&gt; appointmentList = null;</span>
+<span class="fc" id="L77">		appointmentList = (List&lt;Appointment&gt;) this.appointmentrepository.findByPatientId(patientId);</span>
+
+<span class="fc bfc" id="L79" title="All 2 branches covered.">		if (appointmentList == null) {</span>
+<span class="fc" id="L80">			throw new AppointmentServiceException(&quot;Given patient Id is not valid &quot; + patientId);</span>
+		}
+<span class="fc" id="L82">		return appointmentList;</span>
+
+	}
+
+	// for fetching with physicianEmail and acceptance and date , only for physician
+	@Override
+	public List&lt;Appointment&gt; showAvailability(String physicianEmail, LocalDate date, String acceptance)
+			throws AppointmentServiceException {
+<span class="fc" id="L90">		List&lt;Appointment&gt; appointmentList = null;</span>
+
+<span class="fc" id="L92">		appointmentList = (List&lt;Appointment&gt;) this.appointmentrepository.findAppointment(physicianEmail, date,</span>
+				acceptance);
+<span class="fc bfc" id="L94" title="All 2 branches covered.">		if (appointmentList == null) {</span>
+<span class="fc" id="L95">			throw new AppointmentServiceException(&quot;Given physician email or date or acceptance are not valid &quot; + physicianEmail+&quot; &quot;+date+&quot; &quot;+acceptance);</span>
+		}
+
+<span class="fc" id="L98">		return appointmentList;</span>
+	}
+
+	// for fetching with acceptance , only for nurse
+	@Override
+	public List&lt;Appointment&gt; showAppointment(String acceptance) throws AppointmentServiceException {
+<span class="fc" id="L104">		List&lt;Appointment&gt; appointmentList = null;</span>
+
+<span class="fc" id="L106">		appointmentList = (List&lt;Appointment&gt;) this.appointmentrepository.findByAcceptance(acceptance);</span>
+
+<span class="fc bfc" id="L108" title="All 2 branches covered.">		if (appointmentList == null) {</span>
+<span class="fc" id="L109">			throw new AppointmentServiceException(&quot;Given appointment acceptance is not exists  &quot; + acceptance);</span>
+		}
+
+<span class="fc" id="L112">		return appointmentList;</span>
+	}
+
+	// for fetching with physicianEmail and acceptance , only for physician
+	@Override
+	public List&lt;Appointment&gt; showAppointmentByRejected(String physicianEmail, String acceptance) throws AppointmentServiceException {
+<span class="fc" id="L118">		List&lt;Appointment&gt; appointmentList = null;</span>
+
+<span class="fc" id="L120">		appointmentList = (List&lt;Appointment&gt;) this.appointmentrepository.findByPending(physicianEmail, acceptance);</span>
+		
+<span class="fc bfc" id="L122" title="All 2 branches covered.">		if(appointmentList == null) {</span>
+<span class="fc" id="L123">			throw new AppointmentServiceException(&quot;Given Physician email or acceptence are not valid &quot;+acceptance+&quot; &quot;+physicianEmail);</span>
+		}
+		
+<span class="fc" id="L126">		return appointmentList;</span>
+
+	}
+	
+	
+	
+	@Override
+	public List&lt;Appointment&gt; showAllAppointments() throws AppointmentServiceException {
+<span class="fc" id="L134">		List&lt;Appointment&gt; list = (List&lt;Appointment&gt;) this.appointmentrepository.findAll();</span>
+		
+<span class="fc bfc" id="L136" title="All 2 branches covered.">		if(list == null)</span>
+<span class="fc" id="L137">			throw new AppointmentServiceException(&quot;Appointments does not exist &quot;);</span>
+		
+<span class="fc" id="L139">		return list;</span>
+
+}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
