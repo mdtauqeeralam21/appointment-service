@@ -58,7 +58,7 @@ stage('Push') {
 
 steps {
 
-sh 'docker push tauqeeralam21/g2-appointment-service'
+sh 'docker push tauqeeralam21/g2-appointment-service:latest'
 
 }
 
