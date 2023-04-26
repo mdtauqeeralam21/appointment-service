@@ -18,7 +18,7 @@ stage('Build'){
 
 steps{
 
-sh 'mvn clean package -DskipTests=true'
+sh 'mvn clean test package '
 
 }
 
@@ -38,7 +38,7 @@ stage('DockerBuild') {
 
 steps {
 
-sh 'docker build -t tauqeeralam21/appointment-service:latest .'
+sh 'docker build -t tauqeeralam21/g2-appointment-service:latest .'
 
 }
 
@@ -58,7 +58,7 @@ stage('Push') {
 
 steps {
 
-sh 'docker push tauqeeralam21/appointment-service'
+sh 'docker push tauqeeralam21/g2-appointment-service'
 
 }
 
