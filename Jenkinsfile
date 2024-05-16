@@ -48,7 +48,7 @@ stage('Login') {
 
 steps {
 
-sh 'echo Tauqeer@786 | docker login -u tauqeeralam21 --password-stdin'
+sh 'echo TauqeerAlam21 | docker login -u tauqeeralam21 --password-stdin'
 
 }
 
